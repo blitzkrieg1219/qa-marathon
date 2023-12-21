@@ -30,6 +30,7 @@ services:
     volumes:
       - "./db:/var/lib/postgresql/data"
       - "./work:/work"
+      #tmpフォルダもマウントしていいかも（マウントして、コンテナ上で実行させる）
     working_dir: /work
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD}"
