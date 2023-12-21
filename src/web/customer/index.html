@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顧客情報TOP</title>
+    <!-- Bootstrap CSSの読み込み -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div id="links-container">
+    [顧客一覧画面]<br/>
+    </div>
+  
+    <script type="module">
+      // コンフィグオブジェクト（リンクの情報を含む）
+      import config from '../config.js';
+  
+      // ページが読み込まれたときにリンクを生成する関数
+      window.onload = function() {
+        generateLinks(config);
+      };
+  
+      // リンクを生成する関数
+      function generateLinks(config) {
+        const linkElement = document.createElement('a');
+        linkElement.href = config.apiUrl + '/' + config.customer.path;
+        linkElement.textContent = '顧客一覧画面';
+
+        const linksContainer = document.getElementById('links-container');
+        linksContainer.appendChild(linkElement);
+        linksContainer.appendChild(document.createElement('br'));
+      }
+    </script>
+  
+  </body>
+  </html>
