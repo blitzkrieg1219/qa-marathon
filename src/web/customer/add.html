@@ -41,7 +41,7 @@
           const queryString = new URLSearchParams(formData).toString();
 
           // 次の画面に遷移
-          window.location.href = `/${config.customer.path}/add-confirm.html?${queryString}`;
+          window.location.href = `${config.html.customer.addConfirm}?${queryString}`;
         });
     </script>
     <!-- BootstrapのJavaScriptの読み込み -->

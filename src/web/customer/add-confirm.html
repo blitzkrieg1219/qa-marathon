@@ -62,12 +62,8 @@
         document.getElementById('customer-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
-           
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }  
 
-            fetch(config.apiUrl + '/add-customer', {
+            fetch(config.api.host + ':' + config.api.port + config.api.path.customers.add, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -80,7 +76,7 @@
                     // フォームをリセット
                     document.getElementById('customer-form').reset();
                     // 次の画面に遷移
-                    window.location.href = `/${config.customer.path}/list.html`;
+                    window.location.href = config.html.customer.list;
                 } else {
                     alert('保存に失敗しました。');
                 }

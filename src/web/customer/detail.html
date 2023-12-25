@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顧客情報詳細</title>
+    <!-- Bootstrap CSSの読み込み -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        #displayContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">顧客詳細情報</h2>
+        <form id="customer-form">
+            <table id="customerDetail">
+            </table>
+            <input type="hidden" id="customerId" name="customerId">
+            <button id="update" type="button" class="btn btn-primary">更新</button>
+            <button id="delete" type="button" class="btn btn-primary">削除</button>
+        </form>
+    </div>
+    <script type="module">
+        import config from '../config.js';
+
+        // 現在のURLのクエリパラメーターを取得
+        var queryParams = new URLSearchParams(window.location.search);
+        const customerId = queryParams.get('customerId');
+
+        fetch(`${config.api.host}:${config.api.port}${config.api.path.customers.detail}/${customerId}`)
+        .then((response) => {
+          console.log(response); // ここでレスポンスオブジェクトをログに出力
+          return response.json();
+        })
+        .then((data) => {
+            console.log(data); // ここで解析されたデータをログに出力
+            var customerData = data[0];
+
+            document.getElementById('customerId').value = customerData.customer_id;
+
+            const table = document.getElementById('customerDetail');
+            table.border = '1';
+
+            var row = createRow('Customer ID', customerData.customer_id);
+            table.appendChild(row);
+
+            row = createUpdateRow('Company Name', 'companyName', customerData.company_name);
+            table.appendChild(row);
+
+            row = createUpdateRow('Industry', 'industry', customerData.industry);
+            table.appendChild(row);
+
+            row = createUpdateRow('contact', 'contact', customerData.contact);
+            table.appendChild(row);
+            
+            row = createUpdateRow('location', 'location', customerData.location);
+            table.appendChild(row);
+
+            row = createRow('Created Date', customerData.created_date);
+            table.appendChild(row);
+
+            row = createRow('Updated Date', customerData.updated_date);
+            table.appendChild(row);
+        })
+        .catch((error) => console.error(error));
+
+        function createRow(label, value) {
+            var row = document.createElement('tr');
+            var headerCell = document.createElement('th');
+            headerCell.textContent = label;
+            row.appendChild(headerCell);
+
+            var detailCell = document.createElement('td');
+            detailCell.textContent = value;
+            row.appendChild(detailCell);
+
+            return row;
+        }
+
+        function createUpdateRow(label, name, value) {
+            var row = document.createElement('tr');
+            var headerCell = document.createElement('th');
+            headerCell.textContent = label;
+            row.appendChild(headerCell);
+
+            var detailCell = document.createElement('td');
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.name = name;
+            input.value = value;
+            detailCell.appendChild(input);
+            row.appendChild(detailCell);
+
+            return row;
+        }
+
+        document.getElementById('update').addEventListener('click', function(e) {
+            if(confirm('更新しますか？')) {
+                e.preventDefault();
+                const formData = new FormData(document.getElementById("customer-form"));
+                const customerId = formData.get('customerId');
+      
+                fetch(`${config.api.host}:${config.api.port}${config.api.path.customers.update}/${customerId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams([...formData])
+                }).then(response => response.json())
+                    .then(data => {
+                        if(data.success) {
+                            alert('顧客情報が正常に更新されました。');
+                            // 次の画面に遷移
+                            window.location.href = config.html.customer.list;
+                        } else {
+                            alert('更新に失敗しました。');
+                        }
+                    })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert('キャンセルしました！');
+            }          
+        });
+
+        document.getElementById('delete').addEventListener('click', function(e) {
+            if(confirm('削除しますか？')) {
+                e.preventDefault();
+                const formData = new FormData(document.getElementById("customer-form"));
+                const customerId = formData.get('customerId');
+      
+                fetch(`${config.api.host}:${config.api.port}${config.api.path.customers.delete}/${customerId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                }).then(response => response.json())
+                    .then(data => {
+                        if(data.success) {
+                            alert('顧客情報が正常に削除されました。');
+                            // 次の画面に遷移
+                            window.location.href = config.html.customer.list;
+                        } else {
+                            alert('削除に失敗しました。');
+                        }
+                    })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert('キャンセルしました！');
+            }  
+        });
+    </script>
+    <!-- BootstrapのJavaScriptの読み込み -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
