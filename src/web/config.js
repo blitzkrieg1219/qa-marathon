@@ -1,7 +1,6 @@
 const config = {
   api: {
-    host: 'http://localhost',
-    port: '3000',
+    host: 'http://localhost:3000',
     path: {
       customers: {
         list: '/customers',

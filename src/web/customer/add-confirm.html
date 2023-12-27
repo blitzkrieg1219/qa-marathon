@@ -63,7 +63,7 @@
             e.preventDefault();
             const formData = new FormData(this);
 
-            fetch(config.api.host + ':' + config.api.port + config.api.path.customers.add, {
+            fetch(config.api.host + config.api.path.customers.add, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

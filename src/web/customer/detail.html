@@ -30,7 +30,7 @@
         var queryParams = new URLSearchParams(window.location.search);
         const customerId = queryParams.get('customerId');
 
-        fetch(`${config.api.host}:${config.api.port}${config.api.path.customers.detail}/${customerId}`)
+        fetch(`${config.api.host}${config.api.path.customers.detail}/${customerId}`)
         .then((response) => {
           console.log(response); // ここでレスポンスオブジェクトをログに出力
           return response.json();
@@ -103,7 +103,7 @@
                 const formData = new FormData(document.getElementById("customer-form"));
                 const customerId = formData.get('customerId');
       
-                fetch(`${config.api.host}:${config.api.port}${config.api.path.customers.update}/${customerId}`, {
+                fetch(`${config.api.host}${config.api.path.customers.update}/${customerId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -131,7 +131,7 @@
                 const formData = new FormData(document.getElementById("customer-form"));
                 const customerId = formData.get('customerId');
       
-                fetch(`${config.api.host}:${config.api.port}${config.api.path.customers.delete}/${customerId}`, {
+                fetch(`${config.api.host}${config.api.path.customers.delete}/${customerId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
