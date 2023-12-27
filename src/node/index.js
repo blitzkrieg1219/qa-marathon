@@ -13,7 +13,7 @@ const pool = new Pool({
   // 自身が構築したDB設定に直す
   // hostはlocalhostではなく、DBのコンテナ名にする（DockerNetwork上ではコンテナ名＝ホスト名）
   user: "user_411", // PostgreSQLのユーザー名に置き換えてください
-  host: "db",
+  host: "localhost",
   database: "crm_411", // PostgreSQLのデータベース名に置き換えてください
   password: "pass_411", // PostgreSQLのパスワードに置き換えてください
   port: 5432,

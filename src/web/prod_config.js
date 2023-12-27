@@ -1,6 +1,6 @@
 const config = {
     api: {
-      host: 'http://localhost',
+      host: '/api_hiroshi_takemori',
       port: '3000',
       path: {
         customers: {
