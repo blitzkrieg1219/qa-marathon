@@ -13,9 +13,9 @@ const config = {
     },
     html: {
       customer: {
-        addConfirm: '/api_hiroshi_takemori/customer/add-confirm.html',
-        detail: '/api_hiroshi_takemori/customer/detail.html',
-        list: '/api_hiroshi_takemori/customer/list.html'
+        addConfirm: '/hiroshi_takemori/customer/add-confirm.html',
+        detail: '/hiroshi_takemori/customer/detail.html',
+        list: '/hiroshi_takemori/customer/list.html'
       }
     }
   };
