@@ -14,18 +14,27 @@ describe('顧客情報入力フォームのテスト', () => {
       cy.get('#industry').type(data.industry);
       cy.get('#contact').type(uniqueContactNumber);
       cy.get('#location').type(data.location);
+
+      // フォームの送信
+      cy.get('#confirm').click();
+
+      // 確認画面で入力データがセットされたことを確認
+      cy.get('#companyName').should('have.value', data.companyName);
+      cy.get('#industry').should('have.value', data.industry);
+      cy.get('#contact').should('have.value', uniqueContactNumber);
+      cy.get('#location').should('have.value', data.location);
     });
 
-    // フォームの送信
-    cy.get('#customer-form').submit();
+    // アラートが表示されるまで待機
+    cy.get('#customer-form button[type="submit"]').click();
+    cy.on('window:alert', (alertText) => {
+      // アラートの内容が期待通りか確認
+      expect(alertText).to.equal('顧客情報が正常に保存されました。');
+    });
 
-    cy.get('@alertStub').should('have.been.calledOnceWith', '顧客情報が正常に保存されました。');
+    // リスト画面に遷移することを確認
+    cy.url().should('include', '/customer/list.html');
 
-    // フォームがリセットされたことを確認
-    cy.get('#companyName').should('have.value', '');
-    cy.get('#industry').should('have.value', '');
-    cy.get('#contact').should('have.value', '');
-    cy.get('#location').should('have.value', '');
     cy.wait(5000);
   });
 });
